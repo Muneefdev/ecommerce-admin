@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { useStoreModal } from "@/hooks/use-store-modal";
+import { UserButton } from "@clerk/nextjs";
 
 export default function SetupPage() {
 	const isOpen = useStoreModal((state) => state.isOpen);
@@ -14,5 +15,5 @@ export default function SetupPage() {
 		}
 	}, [isOpen, onOpen]);
 
-	return <div>Root Page</div>;
+	return null;
 }
