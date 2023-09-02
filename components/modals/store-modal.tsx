@@ -45,6 +45,7 @@ export default function StoreModal() {
 			setIsSubmitting(true);
 			const res = await axios.post("/api/stores", data);
 			toast.success("Store created");
+			console.log(res.data);
 			router.push(`/${res.data.id}`);
 		} catch (error) {
 			toast.error("Something went wrong");
@@ -98,7 +99,7 @@ export default function StoreModal() {
 								</div>
 							</form>
 						</Form>
-					</div> 
+					</div>
 				</div>
 			</div>
 		</Modal>
