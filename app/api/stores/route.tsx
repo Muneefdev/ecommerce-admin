@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 			return new NextResponse("Name not provided.", { status: 400 });
 		}
 
-		await prismadb.store.create({
+		const storeData = await prismadb.store.create({
 			data: {
 				name: store.name,
 				userId,
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
 		return NextResponse.json({
 			message: "Store created",
-			store: store,
+			storeId: storeData.id,
 		});
 	} catch (error) {
 		console.log(`[POST STORES]: `, error);

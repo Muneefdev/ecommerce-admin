@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-	name: z.string().min(1),
+	name: z.string().min(4),
 });
 
 type FormType = z.infer<typeof formSchema>;
@@ -45,13 +45,11 @@ export default function StoreModal() {
 			setIsSubmitting(true);
 			const res = await axios.post("/api/stores", data);
 			toast.success("Store created");
-			console.log(res.data);
-			router.push(`/${res.data.id}`);
+			window.location.assign(`/${res.data.storeId}`);
 		} catch (error) {
 			toast.error("Something went wrong");
 		} finally {
 			setIsSubmitting(false);
-			onClose();
 		}
 	};
 
