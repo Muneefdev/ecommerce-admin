@@ -23,5 +23,5 @@ export default async function setupLayout({
 		redirect("/" + store.id);
 	}
 
-	return { children };
+	return <>{children}</>;
 }
