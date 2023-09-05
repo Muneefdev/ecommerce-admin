@@ -2,11 +2,17 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import SettingsForm from "./components/settings-form";
+import { Metadata } from "next";
 
 type SettingsPageProps = {
 	params: {
 		storeId: string;
 	};
+};
+
+export const metadata: Metadata = {
+	title: "Store Settings",
+	description: "Settings for your store",
 };
 
 export default async function SettingsPage({ params }: SettingsPageProps) {

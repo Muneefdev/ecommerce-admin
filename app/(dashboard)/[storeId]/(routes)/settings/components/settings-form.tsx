@@ -1,6 +1,7 @@
 "use client";
 
 import AlertModal from "@/components/modals/alert-modal";
+import ApiAlert from "@/components/ui/api-alert";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -13,11 +14,12 @@ import {
 import Heading from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -40,6 +42,8 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
+	const params = useParams();
+	const origin = useOrigin();
 
 	const form = useForm<formType>({
 		defaultValues: store,
@@ -129,6 +133,12 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 					</Button>
 				</form>
 			</Form>
+			<Separator />
+			<ApiAlert
+				title="NEXT_PUBLIC_API_URL"
+				description={`${origin}/api/${params.storeId}`}
+				variant="public"
+			/>
 		</>
 	);
 }
