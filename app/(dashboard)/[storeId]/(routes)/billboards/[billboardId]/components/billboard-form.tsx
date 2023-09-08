@@ -1,7 +1,6 @@
 "use client";
 
 import AlertModal from "@/components/modals/alert-modal";
-import ApiAlert from "@/components/ui/api-alert";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -12,50 +11,69 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
+import ImageUpload from "@/components/ui/image-uploade";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store } from "@prisma/client";
+import { Billboard } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-
 import { z } from "zod";
 
-type SettingsFormProps = {
-	store: Store;
-};
-
 const formSchema = z.object({
-	name: z
-		.string()
-		.min(4, { message: "Store name must be at least 4 characters long." }),
+	label: z.string().min(4, { message: "Must be at least 4 characters long." }),
+	imageUrl: z.string().url({ message: "Must be a valid URL." }),
 });
 
 type formType = z.infer<typeof formSchema>;
 
-export default function SettingsForm({ store }: SettingsFormProps) {
+type BillboardFormProps = {
+	initialData: Billboard | null;
+};
+
+export default function BillboardForm({ initialData }: BillboardFormProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
 	const router = useRouter();
 	const params = useParams();
 	const origin = useOrigin();
 
+	const title = initialData ? "Edit Billboard" : "Create Billboard";
+	const description = initialData
+		? "Edit your billboard."
+		: "Add new billboard.";
+	const toastMessage = initialData
+		? "Billboard updated."
+		: "Billboard created.";
+	const action = initialData ? "Confirm changes" : "Create billboard";
+
 	const form = useForm<formType>({
-		defaultValues: store,
+		defaultValues: initialData || {
+			label: "",
+			imageUrl: "",
+		},
 		resolver: zodResolver(formSchema),
 	});
 
 	const onSubmit = async (data: formType) => {
 		try {
 			setIsLoading(true);
-			await axios.patch(`/api/stores/${params.storeId}`, data);
+			if (initialData) {
+				await axios.patch(
+					`/api/${params.storeId}/billboards/${params.billboardId}`,
+					data
+				);
+			} else {
+				await axios.post(`/api/${params.storeId}/billboards`, data);
+			}
 			router.refresh();
-			toast.success("Store updated");
+			toast.success(toastMessage);
 		} catch (error) {
 			toast.error("Something went wrong");
 		} finally {
@@ -66,11 +84,11 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(`/api/stores/${params.storeId}`);
+			await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
 			router.refresh();
-			toast.success("Store deleted");
+			toast.success("Billboard deleted");
 		} catch (error) {
-			toast.error("Something went wrong");
+			toast.error("Make sure you removed all categories using this billboard.");
 		} finally {
 			setIsLoading(false);
 		}
@@ -85,18 +103,17 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 				onConfirm={onDelete}
 			/>
 			<div className="flex items-center justify-between">
-				<Heading
-					title="Settings"
-					description="Manage your store settings."
-				/>
-				<Button
-					variant="destructive"
-					onClick={() => setIsOpen(true)}
-					size="icon"
-					disabled={isLoading}
-				>
-					<Trash className="w-4 h-4" />
-				</Button>
+				<Heading title={title} description={description} />
+				{initialData && (
+					<Button
+						variant="destructive"
+						onClick={() => setIsOpen(true)}
+						size="icon"
+						disabled={isLoading}
+					>
+						<Trash className="w-4 h-4" />
+					</Button>
+				)}
 			</div>
 			<Separator />
 			<Form {...form}>
@@ -104,18 +121,36 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 					onSubmit={form.handleSubmit(onSubmit)}
 					className="space-y-8 w-full"
 				>
+					<FormField
+						control={form.control}
+						name="imageUrl"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Background image</FormLabel>
+								<FormControl>
+									<ImageUpload
+										value={field.value ? [field.value] : []}
+										disabled={isLoading}
+										onChange={(url) => field.onChange(url)}
+										onRemove={() => field.onChange("")}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<div className="grid grid-cols-3 gap-8">
 						<FormField
 							control={form.control}
-							name="name"
+							name="label"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Store Name</FormLabel>
+									<FormLabel>Label</FormLabel>
 									<FormControl>
 										<Input
 											disabled={isLoading}
 											{...field}
-											placeholder="Store Name"
+											placeholder="Billboard Label"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -129,16 +164,11 @@ export default function SettingsForm({ store }: SettingsFormProps) {
 						type="submit"
 						size="sm"
 					>
-						{isLoading ? "Saving..." : "Confirm changes"}
+						{isLoading ? "Saving..." : action}
 					</Button>
 				</form>
 			</Form>
 			<Separator />
-			<ApiAlert
-				title="NEXT_PUBLIC_API_URL"
-				description={`${origin}/api/${params.storeId}`}
-				variant="public"
-			/>
 		</>
 	);
 }
