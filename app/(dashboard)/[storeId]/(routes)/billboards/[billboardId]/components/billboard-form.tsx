@@ -74,6 +74,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
 			}
 			router.refresh();
 			toast.success(toastMessage);
+			router.push(`/${params.storeId}/billboards`);
 		} catch (error) {
 			toast.error("Something went wrong");
 		} finally {
@@ -84,11 +85,15 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+			await axios.delete(
+				`/api/${params.storeId}/billboards/${params.billboardId}`
+			);
 			router.refresh();
 			toast.success("Billboard deleted");
 		} catch (error) {
-			toast.error("Make sure you removed all categories using this billboard.");
+			toast.error(
+				"Make sure you removed all categories using this billboard."
+			);
 		} finally {
 			setIsLoading(false);
 		}
