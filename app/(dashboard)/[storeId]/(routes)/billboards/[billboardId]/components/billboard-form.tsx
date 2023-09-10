@@ -14,7 +14,6 @@ import Heading from "@/components/ui/heading";
 import ImageUpload from "@/components/ui/image-uploade";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Billboard } from "@prisma/client";
 import axios from "axios";
@@ -42,7 +41,6 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
 
 	const router = useRouter();
 	const params = useParams();
-	const origin = useOrigin();
 
 	const title = initialData ? "Edit Billboard" : "Create Billboard";
 	const description = initialData
@@ -89,6 +87,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
 				`/api/${params.storeId}/billboards/${params.billboardId}`
 			);
 			router.refresh();
+			router.push(`/${params.storeId}/billboards`);
 			toast.success("Billboard deleted");
 		} catch (error) {
 			toast.error(
