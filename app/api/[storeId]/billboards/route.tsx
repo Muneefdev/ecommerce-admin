@@ -7,10 +7,8 @@ export async function GET(
 	{ params }: { params: { storeId: string } }
 ) {
 	try {
-		const { userId } = auth();
-
-		if (!userId) {
-			return new NextResponse("Unauthenticated", { status: 401 });
+		if (!params.storeId) {
+			return new NextResponse("Store ID is not provided.", { status: 400 });
 		}
 
 		const billboardData = await prismadb.billboard.findMany({
