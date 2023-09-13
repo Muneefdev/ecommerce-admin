@@ -12,16 +12,9 @@ import {
 } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard, Category } from "@prisma/client";
+import { Size } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -31,40 +24,32 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 const formSchema = z.object({
-	name: z.string().min(4, { message: "Must be at least 4 characters long." }),
-	billboardId: z
-		.string()
-		.min(4, { message: "Must be at least 4 character long." }),
+	name: z.string().min(3, { message: "Must be at least 3 characters long." }),
+	value: z.string().min(1, { message: "Must be at least 1 character long." }),
 });
 
 type formType = z.infer<typeof formSchema>;
 
-type CategoryFormProps = {
-	initialData: Category | null;
-	billboards: Billboard[];
+type SizeFormProps = {
+	initialData: Size | null;
 };
 
-export default function CategoryForm({
-	initialData,
-	billboards,
-}: CategoryFormProps) {
+export default function SizeForm({ initialData }: SizeFormProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const router = useRouter();
 	const params = useParams();
 
-	const title = initialData ? "Edit Category" : "Create Category";
-	const description = initialData
-		? "Edit your Category."
-		: "Add new Category.";
-	const toastMessage = initialData ? "Category updated." : "Category created.";
-	const action = initialData ? "Confirm changes" : "Create Category";
+	const title = initialData ? "Edit Size" : "Create Size";
+	const description = initialData ? "Edit a Size." : "Add new Size.";
+	const toastMessage = initialData ? "Size updated." : "Size created.";
+	const action = initialData ? "Confirm changes" : "Create Size";
 
 	const form = useForm<formType>({
 		defaultValues: initialData || {
 			name: "",
-			billboardId: "",
+			value: "",
 		},
 		resolver: zodResolver(formSchema),
 	});
@@ -74,15 +59,15 @@ export default function CategoryForm({
 			setIsLoading(true);
 			if (initialData) {
 				await axios.patch(
-					`/api/${params.storeId}/categories/${params.categoryId}`,
+					`/api/${params.storeId}/sizes/${params.sizeId}`,
 					data
 				);
 			} else {
-				await axios.post(`/api/${params.storeId}/categories`, data);
+				await axios.post(`/api/${params.storeId}/sizes`, data);
 			}
 			router.refresh();
 			toast.success(toastMessage);
-			router.push(`/${params.storeId}/categories`);
+			router.push(`/${params.storeId}/sizes`);
 		} catch (error) {
 			toast.error("Something went wrong");
 		} finally {
@@ -93,16 +78,12 @@ export default function CategoryForm({
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(
-				`/api/${params.storeId}/categories/${params.categoryId}`
-			);
+			await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
 			router.refresh();
-			router.push(`/${params.storeId}/categories`);
-			toast.success("Category deleted");
+			router.push(`/${params.storeId}/sizes`);
+			toast.success("Size deleted");
 		} catch (error) {
-			toast.error(
-				"Make sure you removed all products using this category ."
-			);
+			toast.error("Make sure you removed all product using this size.");
 		} finally {
 			setIsLoading(false);
 		}
@@ -146,7 +127,7 @@ export default function CategoryForm({
 										<Input
 											disabled={isLoading}
 											{...field}
-											placeholder="Category name"
+											placeholder="Size name"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -155,35 +136,17 @@ export default function CategoryForm({
 						/>
 						<FormField
 							control={form.control}
-							name="billboardId"
+							name="value"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Billboard</FormLabel>
-									<Select
-										disabled={isLoading}
-										onValueChange={field.onChange}
-										value={field.value}
-										defaultValue={field.value}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue
-													defaultValue={field.value}
-													placeholder="Select a billboard"
-												/>
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{billboards.map((billboard) => (
-												<SelectItem
-													key={billboard.id}
-													value={billboard.id}
-												>
-													{billboard.label}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									<FormLabel>Value</FormLabel>
+									<FormControl>
+										<Input
+											disabled={isLoading}
+											{...field}
+											placeholder="Size value"
+										/>
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
