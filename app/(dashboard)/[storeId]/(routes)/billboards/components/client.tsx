@@ -34,9 +34,9 @@ export default function BillboardClient({ data }: BillboardClientProps) {
 			</div>
 			<Separator />
 			<DataTable searchKey="label" columns={columns} data={data} />
-			{/* <Heading title="API Calls" description="Api calls for Billboards" />
+			<Heading title="API Calls" description="Api calls for Billboards" />
 			<Separator />
-			<ApiList entityIdName="billboardId" entityName="billboards" /> */}
+			<ApiList entityIdName="billboardId" entityName="billboards" />
 		</>
 	);
 }
