@@ -25,10 +25,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Product fetched successfully",
-			product: product,
-		});
+		return NextResponse.json(product);
 	} catch (error) {
 		console.log("[GET_PRODUCT]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -129,10 +126,7 @@ export async function PATCH(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Product updated",
-			Product: product,
-		});
+		return NextResponse.json(product);
 	} catch (error) {
 		console.log("[PATCH_Product]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -173,10 +167,7 @@ export async function DELETE(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Product deleted",
-			product: product,
-		});
+		return NextResponse.json(product);
 	} catch (error) {
 		console.log("[DELETE_PRODUCT]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

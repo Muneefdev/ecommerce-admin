@@ -23,10 +23,7 @@ export async function POST(req: Request) {
 			},
 		});
 
-		return NextResponse.json({
-			message: "Store created",
-			storeId: storeData.id,
-		});
+		return NextResponse.json(storeData.id);
 	} catch (error) {
 		console.log(`[POST STORES]: `, error);
 		return new NextResponse("Internal Error", { status: 500 });

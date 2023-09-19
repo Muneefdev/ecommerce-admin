@@ -17,10 +17,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Billboards fetched successfully",
-			billboardId: billboardData,
-		});
+		return NextResponse.json(billboardData);
 	} catch (error) {
 		console.log("[GET BILLBOARDS]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -71,10 +68,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Billboard created",
-			billboardId: billboardData,
-		});
+		return NextResponse.json(billboardData);
 	} catch (error) {
 		console.log("[POST BILLBOARDS]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

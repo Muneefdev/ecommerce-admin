@@ -17,10 +17,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Sizes fetched successfully",
-			size: size,
-		});
+		return NextResponse.json(size);
 	} catch (error) {
 		console.log("[GET SIZE]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -71,10 +68,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Size created",
-			size: size,
-		});
+		return NextResponse.json(size);
 	} catch (error) {
 		console.log("[POST SIZE]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

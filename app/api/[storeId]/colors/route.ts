@@ -17,10 +17,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Color fetched successfully",
-			color: color,
-		});
+		return NextResponse.json(color);
 	} catch (error) {
 		console.log("[GET_COLOR]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -71,10 +68,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({
-			message: "color created",
-			color: color,
-		});
+		return NextResponse.json(color);
 	} catch (error) {
 		console.log("[POST COLOR]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

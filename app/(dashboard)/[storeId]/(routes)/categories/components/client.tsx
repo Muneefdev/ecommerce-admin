@@ -35,9 +35,9 @@ export default function CategoryClient({ data }: CategoryClientProps) {
 			</div>
 			<Separator />
 			<DataTable searchKey="name" columns={columns} data={data} />
-			<Heading title="API Calls" description="Api calls for Categories" />
+			{/* <Heading title="API Calls" description="Api calls for Categories" />
 			<Separator />
-			<ApiList entityIdName="categories" entityName="categoryId" />
+			<ApiList entityIdName="categories" entityName="categoryId" /> */}
 		</>
 	);
 }

@@ -19,10 +19,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Category fetched successfully",
-			category: category,
-		});
+		return NextResponse.json(category);
 	} catch (error) {
 		console.log("[GET_CATEGORY]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -77,10 +74,7 @@ export async function PATCH(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Category updated",
-			category: category,
-		});
+		return NextResponse.json(category);
 	} catch (error) {
 		console.log("[PATCH_CATEGORY]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -121,10 +115,7 @@ export async function DELETE(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Category deleted",
-			category: category,
-		});
+		return NextResponse.json(category);
 	} catch (error) {
 		console.log("[DELETE_CATEGORY]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

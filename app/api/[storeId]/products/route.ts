@@ -37,10 +37,7 @@ export async function GET(
 			}
 		});
 
-		return NextResponse.json({
-			message: "Products fetched successfully",
-			products: products,
-		});
+		return NextResponse.json(products);
 	} catch (error) {
 		console.log("[GET_PRODUCT]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -126,10 +123,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Product created",
-			product: product,
-		});
+		return NextResponse.json(product);
 	} catch (error) {
 		console.log("[POST_PRODUCT]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

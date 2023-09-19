@@ -35,9 +35,9 @@ export default function ProductClient({ data }: ProductClientProps) {
 			</div>
 			<Separator />
 			<DataTable searchKey="name" columns={columns} data={data} />
-			<Heading title="API Calls" description="Api calls for Products" />
+			{/* <Heading title="API Calls" description="Api calls for Products" />
 			<Separator />
-			<ApiList entityIdName="productId" entityName="products" />
+			<ApiList entityIdName="productId" entityName="products" /> */}
 		</>
 	);
 }

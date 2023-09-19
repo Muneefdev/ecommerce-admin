@@ -19,10 +19,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Sizes fetched successfully",
-			size: size,
-		});
+		return NextResponse.json(size);
 	} catch (error) {
 		console.log("[GET_SIZE]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -77,10 +74,7 @@ export async function PATCH(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Size updated",
-			size: size,
-		});
+		return NextResponse.json(size);
 	} catch (error) {
 		console.log("[PATCH_SIZE]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -121,10 +115,7 @@ export async function DELETE(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Size deleted",
-			size: size,
-		});
+		return NextResponse.json(size);
 	} catch (error) {
 		console.log("[DELETE_SIZE: ", error);
 		return new NextResponse("Internal error", { status: 500 });

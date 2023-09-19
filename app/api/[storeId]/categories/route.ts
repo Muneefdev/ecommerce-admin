@@ -17,12 +17,9 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Categories fetched successfully",
-			categories: categories,
-		});
+		return NextResponse.json(categories);
 	} catch (error) {
-		console.log("[GET CATEGORIES]: ", error);
+		console.log("[GET_CATEGORIES]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
 	}
 }
@@ -71,10 +68,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Category created",
-			category: category,
-		});
+		return NextResponse.json(category);
 	} catch (error) {
 		console.log("[POST CATEGORIES]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

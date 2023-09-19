@@ -19,10 +19,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Colors fetched successfully",
-			color: color,
-		});
+		return NextResponse.json(color);
 	} catch (error) {
 		console.log("[GET_COLOR]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -77,10 +74,7 @@ export async function PATCH(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Color updated",
-			color: color,
-		});
+		return NextResponse.json(color);
 	} catch (error) {
 		console.log("[PATCH_COLOR]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -121,10 +115,7 @@ export async function DELETE(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Color deleted",
-			size: color,
-		});
+		return NextResponse.json(color);
 	} catch (error) {
 		console.log("[DELETE_COLOR] ", error);
 		return new NextResponse("Internal error", { status: 500 });

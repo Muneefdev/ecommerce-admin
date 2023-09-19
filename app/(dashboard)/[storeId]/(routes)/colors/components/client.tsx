@@ -34,9 +34,9 @@ export default function ColorsClient({ data }: ColorClientProps) {
 			</div>
 			<Separator />
 			<DataTable searchKey="name" columns={columns} data={data} />
-			<Heading title="API Calls" description="Api calls for Colors" />
+			{/* <Heading title="API Calls" description="Api calls for Colors" />
 			<Separator />
-			<ApiList entityIdName="colorId" entityName="colors" />
+			<ApiList entityIdName="colorId" entityName="colors" /> */}
 		</>
 	);
 }

@@ -19,10 +19,7 @@ export async function GET(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Billboard fetched successfully",
-			billboard: billboard,
-		});
+		return NextResponse.json(billboard);
 	} catch (error) {
 		console.log("[GET_BILLBOARDS]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -77,10 +74,7 @@ export async function PATCH(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Billboard updated",
-			billboardId: billboardData,
-		});
+		return NextResponse.json(billboardData);
 	} catch (error) {
 		console.log("[PATCH_BILLBOARDS]: ", error);
 		return new NextResponse("Internal error", { status: 500 });
@@ -121,10 +115,7 @@ export async function DELETE(
 			},
 		});
 
-		return NextResponse.json({
-			message: "Billboard deleted",
-			billboard: billboard,
-		});
+		return NextResponse.json(billboard);
 	} catch (error) {
 		console.log("[DELETE_BILLBOARDS]: ", error);
 		return new NextResponse("Internal error", { status: 500 });

@@ -37,10 +37,7 @@ export async function PATCH(req: Request, { params }: RequestProps) {
 			},
 		});
 
-		return NextResponse.json({
-			message: "Store updated",
-			store: store,
-		});
+		return NextResponse.json(store);
 	} catch (error) {
 		console.log(`[STORE_PATCH] ${error}`);
 		return new NextResponse("Internal Error", { status: 500 });
@@ -61,15 +58,12 @@ export async function DELETE(req: Request, { params }: RequestProps) {
 
 		const store = await prismadb.store.delete({
 			where: {
-            id: params.storeId,
-            userId,
+				id: params.storeId,
+				userId,
 			},
 		});
 
-		return NextResponse.json({
-			message: "Store deleted",
-			store: store,
-		});
+		return NextResponse.json(store);
 	} catch (error) {
 		console.log(`[STORE_DELETE] ${error}`);
 		return new NextResponse("Internal Error", { status: 500 });
