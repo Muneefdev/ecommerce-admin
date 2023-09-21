@@ -14,7 +14,7 @@ export async function GET(
 		const isFeatured = searchParams.get("isFeatured");
 
 		if (!params.storeId) {
-			return new NextResponse("Store ID is not provided.", { status: 400 });
+			return new NextResponse("Store id is required", { status: 400 });
 		}
 
 		const products = await prismadb.product.findMany({
@@ -34,12 +34,12 @@ export async function GET(
 			},
 			orderBy: {
 				createdAt: "desc",
-			}
+			},
 		});
 
 		return NextResponse.json(products);
 	} catch (error) {
-		console.log("[GET_PRODUCT]: ", error);
+		console.log("[PRODUCTS_GET]", error);
 		return new NextResponse("Internal error", { status: 500 });
 	}
 }
@@ -107,19 +107,19 @@ export async function POST(
 
 		const product = await prismadb.product.create({
 			data: {
-				storeId: params.storeId,
 				name,
 				price,
+				isFeatured,
+				isArchived,
 				categoryId,
 				colorId,
 				sizeId,
+				storeId: params.storeId,
 				images: {
 					createMany: {
 						data: [...images.map((image: { url: string }) => image)],
 					},
 				},
-				isFeatured,
-				isArchived,
 			},
 		});
 

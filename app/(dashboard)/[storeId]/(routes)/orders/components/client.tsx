@@ -10,6 +10,7 @@ type OrderClientProps = {
 };
 
 export default function OrderClient({ data }: OrderClientProps) {
+	console.log("Order", data);
 	return (
 		<>
 			<Heading
